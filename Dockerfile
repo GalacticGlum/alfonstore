@@ -43,7 +43,9 @@ WORKDIR /app
 
 ARG STATIC_URL
 ENV STATIC_URL ${STATIC_URL:-/static/}
-RUN SECRET_KEY=dummy STATIC_URL=${STATIC_URL} python3 manage.py collectstatic --no-input
+ARG DATABASE_URL
+ENV DATABASE_URL ${DATABASE_URL:-postgres://saleor:saleor@localhost:5432/saleor}
+RUN SECRET_KEY=dummy STATIC_URL=${STATIC_URL} DATABASE_URL=${DATABASE_URL} python3 manage.py collectstatic --no-input
 
 EXPOSE 6969
 ENV PYTHONUNBUFFERED 1
