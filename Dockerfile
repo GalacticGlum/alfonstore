@@ -7,6 +7,9 @@ RUN apt-get -y update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+# Copy environment variables
+COPY .env /app/
+
 # Install Python dependencies
 COPY requirements_dev.txt /app/
 WORKDIR /app
@@ -42,7 +45,7 @@ ARG STATIC_URL
 ENV STATIC_URL ${STATIC_URL:-/static/}
 RUN SECRET_KEY=dummy STATIC_URL=${STATIC_URL} python3 manage.py collectstatic --no-input
 
-EXPOSE 8000
+EXPOSE 6969
 ENV PYTHONUNBUFFERED 1
 
 ARG COMMIT_ID
@@ -60,4 +63,4 @@ GraphQL, Django, and ReactJS."                                                  
       org.opencontainers.image.authors="Mirumee Software (https://mirumee.com)"        \
       org.opencontainers.image.licenses="BSD 3"
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "saleor.asgi:application"]
+CMD ["gunicorn", "--bind", ":6969", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "saleor.asgi:application"]
