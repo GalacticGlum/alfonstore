@@ -65,4 +65,11 @@ GraphQL, Django, and ReactJS."                                                  
       org.opencontainers.image.authors="Mirumee Software (https://mirumee.com)"        \
       org.opencontainers.image.licenses="BSD 3"
 
-CMD ["gunicorn", "--bind", ":6969", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "saleor.asgi:application"]
+ARG SSL_CERTFILE
+ENV SSL_CERTFILE ${SSL_CERTFILE:-""}
+
+ARG SSL_KEYFILE
+ENV SSL_KEYFILE ${SSL_KEYFILE:-""}
+
+CMD gunicorn --bind :6969 --workers 4 --certfile ${SSL_CERTFILE} --keyfile ${SSL_KEYFILE} --worker-class uvicorn.workers.UvicornWorker saleor.asgi:application
+#CMD ["gunicorn", "--bind", ":6969", "--workers", "4", "--certfile", "${SSL_CERTFILE}", "--keyfile", "${SSL_KEYFILE}", "--worker-class", "uvicorn.workers.UvicornWorker", "saleor.asgi:application"]
