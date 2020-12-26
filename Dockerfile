@@ -72,4 +72,3 @@ ARG SSL_KEYFILE
 ENV SSL_KEYFILE ${SSL_KEYFILE:-""}
 
 CMD gunicorn --bind :6969 --workers 4 --certfile ${SSL_CERTFILE} --keyfile ${SSL_KEYFILE} --worker-class uvicorn.workers.UvicornWorker saleor.asgi:application
-#CMD ["gunicorn", "--bind", ":6969", "--workers", "4", "--certfile", "${SSL_CERTFILE}", "--keyfile", "${SSL_KEYFILE}", "--worker-class", "uvicorn.workers.UvicornWorker", "saleor.asgi:application"]
